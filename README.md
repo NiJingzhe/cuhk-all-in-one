@@ -1,3 +1,5 @@
+[English](README.en.md) | 简体中文
+
 ![CUHK all-in-one — share what you learn, keep what you prefer.](assets/cover.jpg)
 
 把中大装进一个任何人（和任何 AI 助手）都能查阅的知识库：校园巴士怎么坐、某栋楼从哪个站下、这门课在哪上、官方信息去哪查。
