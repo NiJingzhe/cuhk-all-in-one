@@ -6,7 +6,7 @@
 
 - 公共仓库：**https://github.com/NiJingzhe/cuhk-all-in-one**。安装 = `npx github:NiJingzhe/cuhk-all-in-one`（内部执行 git clone 到本机 skills 目录；也可手动 `git clone`，但**不要用 Download ZIP**——同步流程依赖 git），仓库根就是 skill 根。
 - 依赖：git；GitHub CLI（`gh auth status` 确认已登录，开 PR 用）。
-- **Push 权限假设**：默认贡献者对仓库有 push 权限（团队共享仓库）。若你没有，fork 一份、把下文所有 push 目标改为自己的 fork，PR 仍向主仓库的 main 提，其余流程完全相同。
+- **Push 权限假设**：**默认没有**。仓库是 public（人人可读、可 fork），但只有显式加为 collaborator 的账号才能直推主仓库分支；其他用户一律走 **fork 流程**（见「愿意分享 → 开 PR」第 1 步）——启动协议每次必检 gh 的原因就在这里：fork 和开 PR 都靠 gh。维护者备忘：日后若把同学加为 collaborator，又想强制一切改动走 PR 审核，需给 main 开 branch protection（当前未开，有写权限者可直推 main）。
 
 ## 首次使用（一次性，按顺序执行）
 
@@ -33,9 +33,12 @@
 
 ### 愿意分享 → 开 PR
 
-1. 从最新 main 开分支：`feat/<语义化短名>`（如 `feat/place-yasumoto-lt`）。
-2. **分组提交**：一个逻辑组一个 commit（如每个地点文档一个 commit，playbook 更新一个 commit）。
-3. push 分支，向 **main** 开 PR：
+1. **无 push 权限者先 fork**（collaborator 可跳过本步）：在本地 clone 内执行 `gh repo fork --remote`——以你的账号创建 fork，并添加名为 `fork` 的 git remote；此后所有 `git push` 推到 `fork`（`git push -u fork feat/xxx`）。
+2. 从最新 main 开分支：`feat/<语义化短名>`（如 `feat/place-yasumoto-lt`）。
+3. **分组提交**：一个逻辑组一个 commit（如每个地点文档一个 commit，playbook 更新一个 commit）。
+4. push 分支，向 **main** 开 PR：
+   - push 目标：collaborator 用 `origin`；fork 用户推自己的 `fork`
+   - 开 PR：`gh pr create --repo NiJingzhe/cuhk-all-in-one --base main`（fork 用户加 `--head <你的用户名>:<分支名>`）
    - **标题**：`[YYYY-MM-DDTHH:MMZ] <语义化描述>`（UTC 时间戳，如 `[2026-09-07T14:30Z] add place guide for Yasumoto IAP`）
    - **描述**（严格结构化，缺一不可）：
      ```markdown
@@ -50,7 +53,7 @@
      ### Freshness
      - 新增文档 stable_until: 2027-09-01
      ```
-4. 把 PR 编号、分支名记入 `personal/prs.md`。回到 main。
+5. 把 PR 编号、分支名记入 `personal/prs.md`。回到 main。
 
 > 开出的 PR 会由每日自动任务与维护者按 [`REVIEW.md`](REVIEW.md) 审核与裁决（格式、来源核验、语义冲突）。审核通过并合并后，下次会话开始时同步流程会自动清理本地 feat 分支。
 
