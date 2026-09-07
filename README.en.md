@@ -24,6 +24,12 @@ More than a human-readable wiki — an **AI-agent-ready skill pack**. Clone it, 
 
 So this is both **fish and fishing rods**: `knowledge/` stores not only answers (timetables and route plans — the fish), but also **the methods agents use to collect information, as knowledge in its own right** — where to look, how to read, how to scrape, and how to verify afterwards, all in the search playbook. Answers expire; methods accumulate. Every time the agent uses a method to catch new knowledge, it writes it back per the spec — the library grows by itself.
 
+## Demo
+
+<video src="assets/日程安排和路线规划.mp4" controls preload="metadata"></video>
+
+> Player not showing? [▶️ Watch directly: schedule planning & route planning](assets/日程安排和路线规划.mp4)
+
 ## Usage
 
 ```bash
