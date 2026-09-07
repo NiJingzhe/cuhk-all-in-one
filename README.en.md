@@ -18,9 +18,11 @@ More than a human-readable wiki — an **AI-agent-ready skill pack**. Clone it, 
 |---|---|
 | `knowledge/common/bus/` | Full campus transport data: shuttle / meet-class / minibus routes, timetables, stop sequences, and route planning |
 | `knowledge/common/place/` | Place guides: which bus to take, where to alight, and how to walk from there (with real photos) |
-| `knowledge/common/search-playbook.md` | Official information search handbook: CUSIS, Blackboard, and how to gather community guides from Xiaohongshu |
-| `knowledge/msc-ai/` | Subject knowledge: course files, programme info, subject-level sources (other programmes can follow the same layout) |
+| `knowledge/common/search-playbook.md` | **Information-collection methodology**: where official info lives (CUSIS, Blackboard), how to read image-only announcements, how to gather and verify community guides |
+| `knowledge/msc-ai/` | Subject knowledge: course files, programme info, subject-level sources and subject-level search methods (other programmes can follow the same layout) |
 | `personal/` | **Your private layer** (gitignored, never uploaded): tips you'd rather not publish live here, and it always takes precedence |
+
+So this is both **fish and fishing rods**: `knowledge/` stores not only answers (timetables and route plans — the fish), but also **the methods agents use to collect information, as knowledge in its own right** — where to look, how to read, how to scrape, and how to verify afterwards, all in the search playbook. Answers expire; methods accumulate. Every time the agent uses a method to catch new knowledge, it writes it back per the spec — the library grows by itself.
 
 ## Usage
 
@@ -29,6 +31,8 @@ npx github:NiJingzhe/cuhk-all-in-one
 ```
 
 Installs into your local skills directory (`~/.agents/skills/cuhk-all-in-one`). The knowledge repo must live as a git clone — daily **updates are `git pull`** (each session the agent auto-syncs per [`SYNC.md`](SYNC.md)), contributions go through feat branches + PRs. Point your AI assistant (ZCode, Claude Code, etc.) at the directory — it loads knowledge per [`SKILL.md`](SKILL.md) and answers questions; on first use it asks for your programme and only loads the subjects you need. Details in [`SYNC.md`](SYNC.md).
+
+**Requirements**: daily Q&A and syncing only need git + an AI assistant. But the "fishing" part — scraping Xiaohongshu guides, operating login-gated sites — requires an agent that can **drive a browser**: ego lite (ego-browser) recommended; any browser-use-capable setup works. Without a browser, baked knowledge Q&A and direct official URLs still work fine.
 
 ## Get involved
 
