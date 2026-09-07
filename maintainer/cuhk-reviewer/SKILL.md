@@ -1,5 +1,5 @@
 ---
-name: maintainer-reviewer
+name: cuhk-reviewer
 description: 审核 github.com/NiJingzhe/cuhk-all-in-one（CUHK 知识库）的开放 PR——执行审核清单、语义冲突实体扫描、打标签发结构化评论、按保守边界自动合并。Use when asked to review/审核 the cuhk-all-in-one knowledge repo's PRs, or when the daily review task fires. Not for PR reviews outside this repo.
 ---
 
