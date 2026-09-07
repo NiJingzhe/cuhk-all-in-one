@@ -34,7 +34,9 @@ git clone git@github.com:NiJingzhe/cuhk-all-in-one.git
 
 两种方式，都值得尊重：
 
-- **分享** 🌱 — 新经验按 [`knowledge/FORMAT.md`](knowledge/FORMAT.md) 的规范（带来源、可验证、可判定过期）写进对应目录，走 `feat/*` 分支开 PR 回 main，让下一个 CUHKer 少踩一个坑。PR 规范见 [`SYNC.md`](SYNC.md)。
+- **分享** 🌱 — **全自动**：会话结束前你只需说一声"愿意分享"，agent 会按 [`SYNC.md`](SYNC.md) 自动开分支、分组提交、开 PR——**本地和 `personal/` 永远优先，只有你明确同意才会产生 PR**，否则一切留在你的机器上。分享的新经验会按 [`knowledge/FORMAT.md`](knowledge/FORMAT.md) 规范书写（带来源、可验证、可判定过期），PR 会由每日自动任务与维护者按 [`REVIEW.md`](REVIEW.md) 审核（格式、来源、知识层面的冲突裁决）。
 - **保留** 🔒 — 不想公开的部分放进 `personal/`，永远只属于你。
+
+- **成为维护者** 🛠️ — PR 的审核与知识裁决是中心化的瓶颈，欢迎一起分担：处理语义冲突、做季度新鲜度巡检。职责与申请方式见 [`REVIEW.md`](REVIEW.md) 的"维护者模式"。
 
 > 一个人的攻略会沉底，一群人的攻略会生长。欢迎你的第一个 PR。

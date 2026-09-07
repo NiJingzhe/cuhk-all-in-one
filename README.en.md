@@ -34,7 +34,9 @@ Point your AI assistant (ZCode, Claude Code, etc.) at the directory — it loads
 
 Two ways, both respected:
 
-- **Share** 🌱 — write new findings into the right directory following the spec in [`knowledge/FORMAT.md`](knowledge/FORMAT.md) (sourced, verifiable, expirable), then open a PR from a `feat/*` branch to main so the next CUHKer steps around one more pothole. PR conventions in [`SYNC.md`](SYNC.md).
+- **Share** 🌱 — **fully automated**: at the end of a session you just say "yes, share it" — the agent opens the branch, groups the commits and files the PR for you per [`SYNC.md`](SYNC.md). **Local and `personal/` always come first; a PR is only created when you explicitly opt in**, otherwise everything stays on your machine. Shared findings are written per [`knowledge/FORMAT.md`](knowledge/FORMAT.md) (sourced, verifiable, expirable), and PRs are reviewed by a daily automation task plus maintainers per [`REVIEW.md`](REVIEW.md) (format, sources, and knowledge-level conflict adjudication).
 - **Keep** 🔒 — put what you'd rather not publish into `personal/`. It stays yours, forever.
+
+- **Become a maintainer** 🛠️ — reviewing PRs and adjudicating knowledge conflicts is a centralized bottleneck; help is welcome: resolve semantic conflicts, run quarterly freshness sweeps. Duties and how to apply are in [`REVIEW.md`](REVIEW.md), "Maintainers".
 
 > One person's guide sinks with the chat log; a community's guide keeps growing. Your first PR is welcome.

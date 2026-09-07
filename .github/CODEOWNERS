@@ -1,0 +1,4 @@
+# 默认：仓库所有者。学科/主题维护者就位后按路径追加，如：
+# /knowledge/msc-ai/ @some-mscai-maintainer
+# /knowledge/common/bus/ @some-transport-maintainer
+* @NiJingzhe

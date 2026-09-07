@@ -52,6 +52,8 @@
      ```
 4. 把 PR 编号、分支名记入 `personal/prs.md`。回到 main。
 
+> 开出的 PR 会由每日自动任务与维护者按 [`REVIEW.md`](REVIEW.md) 审核与裁决（格式、来源核验、语义冲突）。审核通过并合并后，下次会话开始时同步流程会自动清理本地 feat 分支。
+
 ### 不愿分享 → 落入 personal/
 
 1. **新增的文件** → 移动到 `personal/` 下**同名相对路径**（`knowledge/common/place/x.md` → `personal/knowledge/common/place/x.md`）。
