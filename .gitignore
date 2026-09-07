@@ -1,0 +1,5 @@
+# 私有层：个人知识与登记，永不上传（SYNC.md）
+personal/
+
+# 本地开发用的 skill 发现软链
+.agents/
