@@ -28,7 +28,6 @@ So this is both **fish and fishing rods**: `knowledge/` stores not only answers 
 
 ![Schedule planning & route planning demo](assets/日程安排和路线规划.gif)
 
-> Prefer smoother playback? [▶️ Watch the MP4: schedule planning & route planning](assets/日程安排和路线规划.mp4)
 
 ## Usage
 
