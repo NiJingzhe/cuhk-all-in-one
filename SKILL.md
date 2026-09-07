@@ -10,12 +10,21 @@ description: "CUHK 香港中文大学校园生活知识库 — 校内巴士（�
 1. **Baked knowledge**（`knowledge/`）— 已核验、写死在技能里的知识：事实数据（如校巴班次）、地点到达指南，以及查信息的方法（Common 路由的 `knowledge/common/search-playbook.md`）。回答时优先用，省去重复搜索。
 2. **Search playbook**（即 `knowledge/common/search-playbook.md`，归在 Common 路由下）— 知识库没有现成答案时，教你去哪里、怎么找到官方信息。
 
-## 会话开始与个人层（规范见 `SYNC.md`）
+## 会话启动协议（Bootstrap —— 硬性前置，任何知识回答之前必须跑完）
 
-- **会话第一件事**：按 `SYNC.md` 同步——fetch origin 快进 main，按 `personal/prs.md` 逐个维护未结 PR（已 merged/closed 删本地 feat 分支；仍 open 则 merge 最新 main 后 push）。
-- **首次使用**：确认 .gitignore 含 `personal/` → 创建 `personal/` → 询问用户学位层次与专业写入 `personal/info.md` → 询问是否停用其他学科路由（推荐在 info.md 的 enabled_subjects 里禁用，不物理删除）。
-- **知识加载铁律**：`personal/` 下存在同相对路径文件时，**一律以 personal 为准**。
-- **会话结束前**：新产生的知识问用户是否分享——愿意则开 `feat/*` 分支 + 结构化 PR（标题带 UTC 时间戳）并登记进 prs.md；不愿意则把新增/修改文件落到 `personal/` 同相对路径并 `git restore` 工作区。
+> 本节在 SKILL.md 被加载的那一刻生效，**与用户问什么无关**：哪怕只是问一句"校巴几点"，也要先完成下面的检查。不设例外的理由：跳过的代价不在当下，而在会话后段才爆出来——到要开 PR 时才发现 gh 没登录、prs.md 里的 PR 忘了维护、main 落后导致引用了过期知识、工作区脏 diff 混进下一次提交。整个流程只是几条秒级命令，不构成省略的理由。
+
+按顺序执行；**任何一步失败必须当场向用户报告，禁止静默略过**：
+
+1. **初次使用检测**：`personal/info.md` 是否存在？不存在 → 立即按 `SYNC.md`「首次使用」补齐一次性流程（确认 .gitignore 含 `personal/` → 创建 `personal/` → 询问学位层次与专业写 info.md → 询问是否停用其他学科路由），完成后才准继续。
+2. **同步上游**：`git fetch origin && git merge --ff-only origin/main`。失败 → 明确告知用户"本次未同步，本地知识可能落后于 main"。
+3. **维护未结 PR**：读 `personal/prs.md` 的每条记录——已 merged/closed → 删本地 feat 分支并移除该条；仍 open → 切分支 `merge origin/main` 后 push，再回到 main。
+4. **环境自检**：`gh auth status` 可用（不可用 → 如实告知"本会话无法开 PR"，之后的分享流程相应降级）；`git status` 必须干净（有脏 diff 先归位：属于 feat 分支的提交上去，其余按 `SYNC.md`「不愿分享」落 personal + `git restore`）。
+5. **新鲜度警觉**：当前日期临近学期切换点（1 月 / 9 月），或将引用文档的 `freshness.stable_until` 已过 → 回答前先按该文档 `freshness.check` 复核（规范见「新鲜度协议」节）。
+
+**知识加载铁律**：`personal/` 下存在同相对路径文件时，**一律以 personal 为准**。
+
+**会话结束前**：新产生的知识问用户是否分享——愿意则开 `feat/*` 分支 + 结构化 PR（标题带 UTC 时间戳）并登记进 prs.md；不愿意则把新增/修改文件落到 `personal/` 的**同相对路径（注意前缀是 `personal/knowledge/…`，与仓库根同构，如 `knowledge/common/dining/x.md` → `personal/knowledge/common/dining/x.md`）**并 `git restore` 工作区。
 
 ## 路由
 
