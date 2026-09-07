@@ -37,6 +37,11 @@ Two ways, both respected:
 - **Share** 🌱 — **fully automated**: at the end of a session you just say "yes, share it" — the agent opens the branch, groups the commits and files the PR for you per [`SYNC.md`](SYNC.md). **Local and `personal/` always come first; a PR is only created when you explicitly opt in**, otherwise everything stays on your machine. Shared findings are written per [`knowledge/FORMAT.md`](knowledge/FORMAT.md) (sourced, verifiable, expirable), and PRs are reviewed by a daily automation task plus maintainers per [`REVIEW.md`](REVIEW.md) (format, sources, and knowledge-level conflict adjudication).
 - **Keep** 🔒 — put what you'd rather not publish into `personal/`. It stays yours, forever.
 
-- **Become a maintainer** 🛠️ — reviewing PRs and adjudicating knowledge conflicts is a centralized bottleneck; help is welcome: resolve semantic conflicts, run quarterly freshness sweeps. Duties and how to apply are in [`REVIEW.md`](REVIEW.md), "Maintainers".
+- **Become a maintainer** 🛠️ — reviewing PRs and adjudicating knowledge conflicts is a centralized bottleneck; help is welcome. The review tooling lives in a separate repo, [cuhk-reviewer](https://github.com/NiJingzhe/cuhk-reviewer) (two-repo split: this repo is for **using** the knowledge, that one is for **reviewing** it). Four steps to join:
+  1. Install the review skill: `npx github:NiJingzhe/cuhk-reviewer`;
+  2. Land at least one good contribution — go through the full share → PR → merge flow once;
+  3. Open an issue asking for the scope you want to own (e.g. `bus/`, `msc-ai/`), linking your sample PR;
+  4. Once approved you'll be added to `.github/CODEOWNERS` and join reviews per the adjudication rules in [`REVIEW.md`](REVIEW.md).
+  Duties in detail: [`REVIEW.md`](REVIEW.md), "Maintainers".
 
 > One person's guide sinks with the chat log; a community's guide keeps growing. Your first PR is welcome.

@@ -58,4 +58,9 @@
 
 **路由方式**：`.github/CODEOWNERS` 按路径指派（`bus/` → 交通维护者、`msc-ai/` → 学科维护者……）。分布式审核的代价是跨范围冲突可能漏检——兜底是每日集中扫描任务，它看得到所有 open PR。分布式的**一致性**靠大家使用同一个 [cuhk-reviewer](https://github.com/NiJingzhe/cuhk-reviewer) skill（`npx github:NiJingzhe/cuhk-reviewer` 一键装入本机 skills 目录）。
 
-**申请方式**：开 issue 说明你想负责的范围，并附一次合格的示范 PR。
+**申请方式（四步）**：
+
+1. 安装审核 skill：`npx github:NiJingzhe/cuhk-reviewer`；
+2. 先提交至少一次合格贡献——按 `SYNC.md` 走完完整的分享 → PR → 合并流程；
+3. 开 issue：说明想负责的范围（对应 CODEOWNERS 的路径）+ 附你的示范 PR 链接；
+4. 批准后由现有维护者把你写进 `.github/CODEOWNERS`，即可开始按本文件参与审核与裁决（审核操作统一走 `cuhk-reviewer` skill，保证裁决一致）。

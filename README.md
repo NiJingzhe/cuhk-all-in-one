@@ -37,6 +37,11 @@ npx github:NiJingzhe/cuhk-all-in-one
 - **分享** 🌱 — **全自动**：会话结束前你只需说一声"愿意分享"，agent 会按 [`SYNC.md`](SYNC.md) 自动开分支、分组提交、开 PR——**本地和 `personal/` 永远优先，只有你明确同意才会产生 PR**，否则一切留在你的机器上。分享的新经验会按 [`knowledge/FORMAT.md`](knowledge/FORMAT.md) 规范书写（带来源、可验证、可判定过期），PR 会由每日自动任务与维护者按 [`REVIEW.md`](REVIEW.md) 审核（格式、来源、知识层面的冲突裁决）。
 - **保留** 🔒 — 不想公开的部分放进 `personal/`，永远只属于你。
 
-- **成为维护者** 🛠️ — PR 的审核与知识裁决是中心化的瓶颈，欢迎一起分担：处理语义冲突、做季度新鲜度巡检。职责与申请方式见 [`REVIEW.md`](REVIEW.md) 的"维护者模式"。
+- **成为维护者** 🛠️ — PR 的审核与知识裁决是中心化的瓶颈，欢迎分担。审核工具是独立的 [cuhk-reviewer](https://github.com/NiJingzhe/cuhk-reviewer) skill（双仓库分工：本仓库只管**用**，那边只管**审**）。四步入门：
+  1. `npx github:NiJingzhe/cuhk-reviewer` 装上审核 skill；
+  2. 先提交至少一次合格贡献——走完一遍完整的分享→PR→合并流程；
+  3. 开 issue 申请你想负责的范围（如 `bus/`、`msc-ai/`），附上你的示范 PR；
+  4. 批准后你会进 `.github/CODEOWNERS`，此后按 [`REVIEW.md`](REVIEW.md) 的裁决层级参与审核。
+  职责细节见 [`REVIEW.md`](REVIEW.md) 的"维护者模式"。
 
 > 一个人的攻略会沉底，一群人的攻略会生长。欢迎你的第一个 PR。
