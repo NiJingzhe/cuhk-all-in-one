@@ -2,7 +2,7 @@
 
 为什么需要这个文件：知识库的合并是中心化的，但知识的"冲突"大多不是 git 意义上的。两个人给同一栋楼写了不同的到达方案，可能改的是不同文件、不同段落——git 会安静地合并成功，知识层面却是矛盾的。**git 只管文本，这个文件管知识。**
 
-本文件是**规则**（审什么、怎么裁决、谁来做）；**执行手册**是 [`maintainer/cuhk-reviewer/`](maintainer/cuhk-reviewer/SKILL.md) 这个 skill（每日自动任务与维护者都用它执行，含实体扫描脚本 `scripts/entity_scan.sh`）。规则改动改这里，操作改动改 skill，两边不要互相复制。
+本文件是**规则**（审什么、怎么裁决、谁来做）；**执行手册**是独立的 maintainer skill **[cuhk-reviewer](https://github.com/NiJingzhe/cuhk-reviewer)**（`npx github:NiJingzhe/cuhk-reviewer` 一键安装；每日自动任务与维护者都用它执行，含实体扫描脚本 `scripts/entity_scan.sh`）。规则改动改这里，操作改动改那边，两边不要互相复制。
 
 ## PR 从哪来
 
@@ -30,7 +30,7 @@
 
 - **实体索引**：审核时从 PR 改动中提取涉及实体——place 文档名、bus 线路与站点名、课程代码、教室缩写。与 main 及**所有 open PR** 的同实体内容比对（不能只和 main 比）。
 - **焦点问题**：这个 PR 改动的可过期事实（表格行、时刻、站点）是否与已有内容不同？
-- 执行工具：`maintainer/cuhk-reviewer/scripts/entity_scan.sh <PR号>`（输出线索；是否矛盾按裁决层级人工判定）。
+- 执行工具：cuhk-reviewer skill 的 `scripts/entity_scan.sh <PR号>`（输出线索；是否矛盾按裁决层级人工判定）。
 
 ### 裁决层级（谁留在文档里）
 
@@ -56,6 +56,6 @@
 2. **季度新鲜度巡检**：对所有 `stable_until` 已过期的文档跑各自的 `freshness.check`——这是知识库不过腐的关键。
 3. 裁决升级：自动化任务拿不准的冲突。
 
-**路由方式**：`.github/CODEOWNERS` 按路径指派（`bus/` → 交通维护者、`msc-ai/` → 学科维护者……）。分布式审核的代价是跨范围冲突可能漏检——兜底是每日集中扫描任务，它看得到所有 open PR。分布式的**一致性**靠大家使用同一个 `cuhk-reviewer` skill（随本仓库分发，clone 后 symlink 到自己的 skills 目录即可）。
+**路由方式**：`.github/CODEOWNERS` 按路径指派（`bus/` → 交通维护者、`msc-ai/` → 学科维护者……）。分布式审核的代价是跨范围冲突可能漏检——兜底是每日集中扫描任务，它看得到所有 open PR。分布式的**一致性**靠大家使用同一个 [cuhk-reviewer](https://github.com/NiJingzhe/cuhk-reviewer) skill（`npx github:NiJingzhe/cuhk-reviewer` 一键装入本机 skills 目录）。
 
 **申请方式**：开 issue 说明你想负责的范围，并附一次合格的示范 PR。

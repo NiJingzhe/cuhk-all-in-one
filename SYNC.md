@@ -4,7 +4,7 @@
 
 ## 仓库与安装
 
-- 公共仓库：**https://github.com/NiJingzhe/cuhk-all-in-one**（安装 = `git clone`，仓库根就是 skill 根；不要用 Download ZIP——同步流程依赖 git）。
+- 公共仓库：**https://github.com/NiJingzhe/cuhk-all-in-one**。安装 = `npx github:NiJingzhe/cuhk-all-in-one`（内部执行 git clone 到本机 skills 目录；也可手动 `git clone`，但**不要用 Download ZIP**——同步流程依赖 git），仓库根就是 skill 根。
 - 依赖：git；GitHub CLI（`gh auth status` 确认已登录，开 PR 用）。
 - **Push 权限假设**：默认贡献者对仓库有 push 权限（团队共享仓库）。若你没有，fork 一份、把下文所有 push 目标改为自己的 fork，PR 仍向主仓库的 main 提，其余流程完全相同。
 

@@ -1,0 +1,12 @@
+{
+  "name": "cuhk-all-in-one",
+  "version": "1.0.0",
+  "description": "CUHK campus knowledge skill — installer entry. The knowledge repo must live as a git clone (contributions go through git/PRs, see SYNC.md).",
+  "bin": {
+    "cuhk-all-in-one": "./bin.js"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "license": "MIT"
+}

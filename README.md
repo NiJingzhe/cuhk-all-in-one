@@ -25,10 +25,10 @@
 ## 怎么用
 
 ```bash
-git clone git@github.com:NiJingzhe/cuhk-all-in-one.git
+npx github:NiJingzhe/cuhk-all-in-one
 ```
 
-把目录交给你的 AI 助手（如 ZCode / Claude Code 等），它会按 [`SKILL.md`](SKILL.md) 自动加载知识并回答问题。每次会话开始会自动同步 main、维护你的分支；首次使用会询问你的专业，只加载你需要的学科。细节见 [`SYNC.md`](SYNC.md)。
+安装到本机 skills 目录（`~/.agents/skills/cuhk-all-in-one`）。知识库必须以 git clone 形态存在——日常**更新走 `git pull`**（每次会话 agent 会按 [`SYNC.md`](SYNC.md) 自动同步），贡献走 feat 分支 + PR。把目录交给你的 AI 助手（如 ZCode / Claude Code 等），它会按 [`SKILL.md`](SKILL.md) 自动加载知识并回答问题；首次使用会询问你的专业，只加载你需要的学科。
 
 ## 参与进来
 

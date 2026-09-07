@@ -25,10 +25,10 @@ More than a human-readable wiki — an **AI-agent-ready skill pack**. Clone it, 
 ## Usage
 
 ```bash
-git clone git@github.com:NiJingzhe/cuhk-all-in-one.git
+npx github:NiJingzhe/cuhk-all-in-one
 ```
 
-Point your AI assistant (ZCode, Claude Code, etc.) at the directory — it loads knowledge per [`SKILL.md`](SKILL.md) and answers questions. Each session auto-syncs main and maintains your branches; on first use it asks for your programme and only loads the subjects you need. Details in [`SYNC.md`](SYNC.md).
+Installs into your local skills directory (`~/.agents/skills/cuhk-all-in-one`). The knowledge repo must live as a git clone — daily **updates are `git pull`** (each session the agent auto-syncs per [`SYNC.md`](SYNC.md)), contributions go through feat branches + PRs. Point your AI assistant (ZCode, Claude Code, etc.) at the directory — it loads knowledge per [`SKILL.md`](SKILL.md) and answers questions; on first use it asks for your programme and only loads the subjects you need. Details in [`SYNC.md`](SYNC.md).
 
 ## Get involved
 
