@@ -32,7 +32,7 @@ npx github:NiJingzhe/cuhk-all-in-one
 
 Installs into your local skills directory (`~/.agents/skills/cuhk-all-in-one`). The knowledge repo must live as a git clone — daily **updates are `git pull`** (each session the agent auto-syncs per [`SYNC.md`](SYNC.md)), contributions go through feat branches + PRs. Point your AI assistant (ZCode, Claude Code, etc.) at the directory — it loads knowledge per [`SKILL.md`](SKILL.md) and answers questions; on first use it asks for your programme and only loads the subjects you need. Details in [`SYNC.md`](SYNC.md).
 
-**Requirements**: daily Q&A and syncing only need git + an AI assistant. But the "fishing" part — scraping Xiaohongshu guides, operating login-gated sites — requires an agent that can **drive a browser**: ego lite (ego-browser) recommended; any browser-use-capable setup works. Without a browser, baked knowledge Q&A and direct official URLs still work fine.
+**Requirements**: daily Q&A and syncing only need git + an AI assistant. But the "fishing" part — scraping Xiaohongshu guides, operating login-gated sites — requires an agent that can **drive a browser**: [ego lite](https://github.com/citrolabs/ego-lite) ([site](https://lite.ego.app/), a.k.a. ego-browser) recommended; any browser-use-capable setup works. Without a browser, baked knowledge Q&A and direct official URLs still work fine.
 
 ## Get involved
 

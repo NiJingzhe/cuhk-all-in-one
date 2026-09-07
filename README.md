@@ -32,7 +32,7 @@ npx github:NiJingzhe/cuhk-all-in-one
 
 安装到本机 skills 目录（`~/.agents/skills/cuhk-all-in-one`）。知识库必须以 git clone 形态存在——日常**更新走 `git pull`**（每次会话 agent 会按 [`SYNC.md`](SYNC.md) 自动同步），贡献走 feat 分支 + PR。把目录交给你的 AI 助手（如 ZCode / Claude Code 等），它会按 [`SKILL.md`](SKILL.md) 自动加载知识并回答问题；首次使用会询问你的专业，只加载你需要的学科。
 
-**环境要求**：日常问答与知识同步只需 git + AI 助手。但"授人以渔"的部分——比如抓取小红书攻略、操作需要登录的站点——需要 agent 能**操控浏览器**：推荐配合 ego lite（ego-browser），任何支持 browser-use 的浏览器方案均可。没有浏览器也不影响已 bake 的知识问答与官方 URL 直查。
+**环境要求**：日常问答与知识同步只需 git + AI 助手。但"授人以渔"的部分——比如抓取小红书攻略、操作需要登录的站点——需要 agent 能**操控浏览器**：推荐 [ego lite](https://github.com/citrolabs/ego-lite)（[官网](https://lite.ego.app/)，ego-browser），任何支持 browser-use 的浏览器方案均可。没有浏览器也不影响已 bake 的知识问答与官方 URL 直查。
 
 ## 参与进来
 

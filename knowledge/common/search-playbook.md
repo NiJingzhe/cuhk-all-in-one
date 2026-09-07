@@ -65,7 +65,7 @@ confidence: high
 - 服务时段在 `rb-2-1` 的 `rb-large` span（一条线可能有多个时段块，如周六班）；发车分钟在 `rb-2-2`；`#`/`＃` 前缀对应脚注（特殊停靠规则）。
 - 站名后缀 `(Upward)`/`(Downward)` 表示书院的上山/下山方向站台。
 
-**用 ego-browser 重抓时的坑**（来自实际爬取经验）：
+**用 ego-browser 重抓时的坑**（来自实际爬取经验；ego-lite：[GitHub](https://github.com/citrolabs/ego-lite) · [官网](https://lite.ego.app/)，可与 AI 助手共享登录态）：
 
 - `serverFetch` 只返回文本，下载公告图要用 `curl`。
 - `captureScreenshot('/path.png')` 第一参数是路径字符串；脚本内用 ESM `import`，别与 top-level await 混用 `require`。
