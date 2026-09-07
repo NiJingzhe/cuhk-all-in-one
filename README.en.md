@@ -26,9 +26,9 @@ So this is both **fish and fishing rods**: `knowledge/` stores not only answers 
 
 ## Demo
 
-<video src="assets/日程安排和路线规划.mp4" controls preload="metadata"></video>
+![Schedule planning & route planning demo](assets/日程安排和路线规划.gif)
 
-> Player not showing? [▶️ Watch directly: schedule planning & route planning](assets/日程安排和路线规划.mp4)
+> Prefer smoother playback? [▶️ Watch the MP4: schedule planning & route planning](assets/日程安排和路线规划.mp4)
 
 ## Usage
 

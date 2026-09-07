@@ -26,9 +26,9 @@
 
 ## Demo
 
-<video src="assets/日程安排和路线规划.mp4" controls preload="metadata"></video>
+![日程安排与路线规划演示](assets/日程安排和路线规划.gif)
 
-> 播放器没显示？[▶️ 直接观看：日程安排与路线规划](assets/日程安排和路线规划.mp4)
+> 更流畅的版本：[▶️ 观看 MP4：日程安排与路线规划](assets/日程安排和路线规划.mp4)
 
 ## 怎么用
 
