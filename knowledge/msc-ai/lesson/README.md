@@ -7,7 +7,7 @@
 | 课程 | 名称 | 时间 | 地点 | 文档 |
 |---|---|---|---|---|
 | AIMS5710 | Deep Learning Fundamentals and Theories | 周二 18:30–21:30 | Yasumoto LT4 | `aims5710.md` |
-| AIMS5701 | Fundamentals in Artificial Intelligence | 周三 18:30–21:30 | Yasumoto LT7 | `aims5701.md` |
+| AIMS5701 | Fundamentals in Artificial Intelligence | 周三 18:30–21:30 | Yasumoto LT4 | `aims5701.md` |
 | AIMS5702 | Artificial Intelligence in Practice | 周四 19:00–22:00 | Esther Lee LT1 | `aims5702.md` |
 
 ## Term 2（2027-01-11 ~ 2027-04-22）

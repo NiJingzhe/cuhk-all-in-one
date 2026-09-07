@@ -11,9 +11,9 @@ source:
   - name: CUHK Transport Office（班次交叉核验）
     url: https://transport.cuhk.edu.hk/
 verified:
-  date: 2026-09-07
-  method: 小红书攻略图文提取；校巴信息与 2026-09-07 官方线路数据核对；LT 楼层为社区信息，待亲测
-  by: ZCode session（ego-browser 抓取）
+  date: 2026-09-08
+  method: 小红书攻略图文提取；校巴信息与 2026-09-07 官方线路数据核对；LT1~LT7 并存经用户 2026-09-08 确认（AIMS5701 教室为 LT4，LT7 亦存在）
+  by: ZCode session（ego-browser 抓取 + 用户更正）
 freshness:
   stable_until: 2027-09-01
   expires_when: 入校登记政策变化、楼内教室调整；校巴变化以 [[../bus/routes-pslb]] 等为准
@@ -28,9 +28,9 @@ confidence: medium
 | 名称 | 说明 |
 |---|---|
 | 康本國際學術園 / Yasumoto Int'l Academic Park | 官方名，课表缩写 **Y.I.A.P.**，同学口称"康本园/YIA" |
-| LT4 / LT7 | 园内演讲厅（社区笔记称园内有 LT1~LT6 一排，LT4/LT7 的具体楼层**待亲测确认**，进园后按廊道指示牌走） |
+| LT4 / LT7 | 园内演讲厅，**LT1~LT7 均存在**（社区笔记"只有 LT1~LT6"不完整）。AIMS5701（T1 周三）在 **LT4**，见 [[../../msc-ai/lesson/aims5701]]；具体楼层进园后按廊道指示牌走 |
 
-位置：大学站旁，**离港铁最近的教学楼**——MScAI 的 5710（T1）和 5704（T2）都在此上课。MScAI 项目办公室所在的何善衡工程楼到达方式见 [[ho-sin-hang-eng-bldg]]（两楼同在大学站一侧，步行可达）。
+位置：大学站旁，**离港铁最近的教学楼**——MScAI 的 5701（T1，LT4）、5710（T1）和 5704（T2）都在此上课。MScAI 项目办公室所在的何善衡工程楼到达方式见 [[ho-sin-hang-eng-bldg]]（两楼同在大学站一侧，步行可达）。
 
 ## 到达方式总表
 
@@ -49,10 +49,10 @@ confidence: medium
 2. 入校后**右转一直走**，途中会经过一个校巴站（这就是 1 号线的乘车站，去别的楼才用得上，见 [[../bus/routes-shuttle#1 — Main（主校园环回）]]）。
    ![右转沿路直走](assets/yia-03-turn-right.jpg)
    ![途经的校巴站，继续直行](assets/yia-04-bus-stop.jpg)
-3. 看到**彩虹阶梯**，左侧玻璃门进去就是 YIA。进楼后按指示牌找 LT4/LT7。
+3. 看到**彩虹阶梯**，左侧玻璃门进去就是 YIA。进楼后按指示牌找教室（LT4/LT7 等）。
 
 ## 提醒
 
 - ⚠️ YIA 与康本园是同一栋楼的两种叫法；课表写 Y.I.A.P. / Yasumoto 都指这里。
 - ⚠️ 从 YIA 去 CTA/中央道一带的教学楼（李兆基楼、鄭裕彤樓等）：出楼右转沿上坡步道走百万大道方向，详见 [[lsk-building]] 与 [[cyt-building]]。
-- 实测攻略说园内教室是 LT1~LT6——与课表存在 LT7 矛盾，以现场指示牌为准，第一堂课提前 15 分钟到。
+- ⚠️ 早期社区攻略称园内只有 LT1~LT6——**已证实不完整**，LT1~LT7 均存在（2026-09-08 用户确认，课表教室 LT4/LT7 并存）。具体教室以课表与现场指示牌为准，第一堂课提前 15 分钟到。
