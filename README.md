@@ -1,6 +1,6 @@
 [English](README.en.md) | 简体中文
 
-[![skills.sh installs](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fwww.skills.sh%2Fapi%2Fsearch%3Fq%3Dcuhk&query=%24.skills%5B0%5D.installs&label=installs&labelColor=111&color=007ec6)](https://www.skills.sh/?q=cuhk)
+[![skill下载量](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fwww.skills.sh%2Fapi%2Fsearch%3Fq%3Dcuhk&query=%24.skills%5B0%5D.installs&label=skill%E4%B8%8B%E8%BD%BD%E9%87%8F&labelColor=000&color=000)](https://www.skills.sh/?q=cuhk)
 
 ![CUHK all-in-one — share what you learn, keep what you prefer.](assets/cover.jpg)
 
