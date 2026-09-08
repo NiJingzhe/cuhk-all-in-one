@@ -1,5 +1,7 @@
 [English](README.en.md) | 简体中文
 
+[![npm version](https://img.shields.io/npm/v/cuhk-all-in-one)](https://www.npmjs.com/package/cuhk-all-in-one) [![npm downloads](https://img.shields.io/npm/dm/cuhk-all-in-one)](https://www.npmjs.com/package/cuhk-all-in-one)
+
 ![CUHK all-in-one — share what you learn, keep what you prefer.](assets/cover.jpg)
 
 把中大装进一个任何人（和任何 AI 助手）都能查阅的知识库：校园巴士怎么坐、某栋楼从哪个站下、这门课在哪上、官方信息去哪查。
@@ -32,10 +34,10 @@
 ## 怎么用
 
 ```bash
-npx github:NiJingzhe/cuhk-all-in-one
+npx cuhk-all-in-one
 ```
 
-安装到本机 skills 目录（`~/.agents/skills/cuhk-all-in-one`）。知识库必须以 git clone 形态存在——日常**更新走 `git pull`**（每次会话 agent 会按 [`SYNC.md`](SYNC.md) 自动同步），贡献走 feat 分支 + PR。把目录交给你的 AI 助手（如 ZCode / Claude Code 等），它会按 [`SKILL.md`](SKILL.md) 自动加载知识并回答问题；首次使用会询问你的专业，只加载你需要的学科。
+安装到本机 skills 目录（`~/.agents/skills/cuhk-all-in-one`）。npm 包只是安装器外壳——它执行的正是 `git clone` 本仓库（知识永远住在 GitHub 上，**更新不经过 npm**）；`npx github:NiJingzhe/cuhk-all-in-one` 与之等效。知识库必须以 git clone 形态存在——日常**更新走 `git pull`**（每次会话 agent 会按 [`SYNC.md`](SYNC.md) 自动同步），贡献走 feat 分支 + PR。把目录交给你的 AI 助手（如 ZCode / Claude Code 等），它会按 [`SKILL.md`](SKILL.md) 自动加载知识并回答问题；首次使用会询问你的专业，只加载你需要的学科。
 
 **环境要求**：日常问答与知识同步只需 git + AI 助手。但"授人以渔"的部分——比如抓取小红书攻略、操作需要登录的站点——需要 agent 能**操控浏览器**：推荐 [ego lite](https://github.com/citrolabs/ego-lite)（[官网](https://lite.ego.app/)，ego-browser），任何支持 browser-use 的浏览器方案均可。没有浏览器也不影响已 bake 的知识问答与官方 URL 直查。
 

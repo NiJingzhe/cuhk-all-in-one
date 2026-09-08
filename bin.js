@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 'use strict';
-// npx github:NiJingzhe/cuhk-all-in-one — 把知识库 clone 到本机 skills 目录。
+// npx cuhk-all-in-one — 把知识库 clone 到本机 skills 目录。
 // 注意：知识库必须以 git clone 形态存在（贡献/同步流程依赖 git，见 SYNC.md），
 // 因此本安装器执行 clone 而非文件拷贝；日常更新走 SYNC.md 的 git 同步，不走 npx。
+// npm 包只是安装器外壳（files 白名单只含本文件）；npx github:NiJingzhe/cuhk-all-in-one 与本命令等效。
 const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');

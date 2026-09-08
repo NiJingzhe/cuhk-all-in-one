@@ -4,7 +4,8 @@
 
 ## 仓库与安装
 
-- 公共仓库：**https://github.com/NiJingzhe/cuhk-all-in-one**。安装 = `npx github:NiJingzhe/cuhk-all-in-one`（内部执行 git clone 到本机 skills 目录；也可手动 `git clone`，但**不要用 Download ZIP**——同步流程依赖 git），仓库根就是 skill 根。
+- 公共仓库：**https://github.com/NiJingzhe/cuhk-all-in-one**。安装 = `npx cuhk-all-in-one`（npm 包只是安装器外壳，内部执行 git clone 到本机 skills 目录；`npx github:NiJingzhe/cuhk-all-in-one` 等效；也可手动 `git clone`，但**不要用 Download ZIP**——同步流程依赖 git），仓库根就是 skill 根。
+- 维护者备忘：npm 包经 `files` 白名单只含 `bin.js`——知识更新与 npm 无关、无需重发；仅当改动 `bin.js`/安装流程时才需要本地 `npm publish` 同步外壳。
 - 依赖：git；GitHub CLI（`gh auth status` 确认已登录，开 PR 用）。
 - **Push 权限假设**：**默认没有**。仓库是 public（人人可读、可 fork），但只有显式加为 collaborator 的账号才能直推主仓库分支；其他用户一律走 **fork 流程**（见「愿意分享 → 开 PR」第 1 步）——启动协议每次必检 gh 的原因就在这里：fork 和开 PR 都靠 gh。维护者备忘：日后若把同学加为 collaborator，又想强制一切改动走 PR 审核，需给 main 开 branch protection（当前未开，有写权限者可直推 main）。
 

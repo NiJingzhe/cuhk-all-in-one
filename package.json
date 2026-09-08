@@ -5,6 +5,13 @@
   "bin": {
     "cuhk-all-in-one": "./bin.js"
   },
+  "files": [
+    "bin.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NiJingzhe/cuhk-all-in-one.git"
+  },
   "engines": {
     "node": ">=14"
   },

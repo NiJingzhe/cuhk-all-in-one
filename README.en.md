@@ -1,5 +1,7 @@
 ![CUHK all-in-one — share what you learn, keep what you prefer.](assets/cover.jpg)
 
+[![npm version](https://img.shields.io/npm/v/cuhk-all-in-one)](https://www.npmjs.com/package/cuhk-all-in-one) [![npm downloads](https://img.shields.io/npm/dm/cuhk-all-in-one)](https://www.npmjs.com/package/cuhk-all-in-one)
+
 [简体中文](README.md) | English
 
 Stuff CUHK into a knowledge base that anyone — or any AI assistant — can query: how the campus shuttles work, which stop to get off for a building, where your class meets, and where to find official information.
@@ -32,10 +34,10 @@ So this is both **fish and fishing rods**: `knowledge/` stores not only answers 
 ## Usage
 
 ```bash
-npx github:NiJingzhe/cuhk-all-in-one
+npx cuhk-all-in-one
 ```
 
-Installs into your local skills directory (`~/.agents/skills/cuhk-all-in-one`). The knowledge repo must live as a git clone — daily **updates are `git pull`** (each session the agent auto-syncs per [`SYNC.md`](SYNC.md)), contributions go through feat branches + PRs. Point your AI assistant (ZCode, Claude Code, etc.) at the directory — it loads knowledge per [`SKILL.md`](SKILL.md) and answers questions; on first use it asks for your programme and only loads the subjects you need. Details in [`SYNC.md`](SYNC.md).
+Installs into your local skills directory (`~/.agents/skills/cuhk-all-in-one`). The npm package is just an installer shell — all it does is `git clone` this repo (knowledge lives on GitHub, **updates never go through npm**); `npx github:NiJingzhe/cuhk-all-in-one` is equivalent. The knowledge repo must live as a git clone — daily **updates are `git pull`** (each session the agent auto-syncs per [`SYNC.md`](SYNC.md)), contributions go through feat branches + PRs. Point your AI assistant (ZCode, Claude Code, etc.) at the directory — it loads knowledge per [`SKILL.md`](SKILL.md) and answers questions; on first use it asks for your programme and only loads the subjects you need. Details in [`SYNC.md`](SYNC.md).
 
 **Requirements**: daily Q&A and syncing only need git + an AI assistant. But the "fishing" part — scraping Xiaohongshu guides, operating login-gated sites — requires an agent that can **drive a browser**: [ego lite](https://github.com/citrolabs/ego-lite) ([site](https://lite.ego.app/), a.k.a. ego-browser) recommended; any browser-use-capable setup works. Without a browser, baked knowledge Q&A and direct official URLs still work fine.
 
