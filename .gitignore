@@ -7,3 +7,6 @@ personal/
 # 本地未共享的视频等大文件
 .DS_Store
 assets/找食堂.mp4
+
+# 旧版私有层迁移留底（2026-09-08 迁往 ~/.cuhk/personal），永不入库
+personal.migrated-bak/

@@ -22,7 +22,7 @@ More than a human-readable wiki — an **AI-agent-ready skill pack**. Clone it, 
 | `knowledge/common/place/` | Place guides: which bus to take, where to alight, and how to walk from there (with real photos) |
 | `knowledge/common/search-playbook.md` | **Information-collection methodology**: where official info lives (CUSIS, Blackboard), how to read image-only announcements, how to gather and verify community guides |
 | `knowledge/msc-ai/` | Subject knowledge: course files, programme info, subject-level sources and subject-level search methods (other programmes can follow the same layout) |
-| `personal/` | **Your private layer** (gitignored, never uploaded): tips you'd rather not publish live here, and it always takes precedence |
+| `personal/` → `~/.cuhk/personal/` | **Your private layer** (lives in your home directory, not in the repo — installs and updates never touch it): tips you'd rather not publish live here, and it always takes precedence |
 
 So this is both **fish and fishing rods**: `knowledge/` stores not only answers (timetables and route plans — the fish), but also **the methods agents use to collect information, as knowledge in its own right** — where to look, how to read, how to scrape, and how to verify afterwards, all in the search playbook. Answers expire; methods accumulate. Every time the agent uses a method to catch new knowledge, it writes it back per the spec — the library grows by itself.
 
@@ -34,10 +34,12 @@ So this is both **fish and fishing rods**: `knowledge/` stores not only answers 
 ## Usage
 
 ```bash
-npx cuhk-all-in-one
+npx skills add NiJingzhe/cuhk-all-in-one
 ```
 
-Installs into your local skills directory (`~/.agents/skills/cuhk-all-in-one`). The npm package is just an installer shell — all it does is `git clone` this repo (knowledge lives on GitHub, **updates never go through npm**); `npx github:NiJingzhe/cuhk-all-in-one` is equivalent. The knowledge repo must live as a git clone — daily **updates are `git pull`** (each session the agent auto-syncs per [`SYNC.md`](SYNC.md)), contributions go through feat branches + PRs. Point your AI assistant (ZCode, Claude Code, etc.) at the directory — it loads knowledge per [`SKILL.md`](SKILL.md) and answers questions; on first use it asks for your programme and only loads the subjects you need. Details in [`SYNC.md`](SYNC.md).
+[skills](https://github.com/vercel-labs/skills) installs the skill into your AI assistant's skills directory with automatic per-agent setup (ZCode / Claude Code / Codex etc.; add `-g` for a global install). On first session, the agent **turns the installed copy into a git repo in place** and syncs upstream per [`SKILL.md`](SKILL.md) — so forking, filing PRs, and daily updates (automatic git sync each session) work exactly as with a plain git clone. Prefer cloning directly? `npx cuhk-all-in-one` (an npm thin installer that just runs `git clone`). The agent loads the knowledge automatically; on first use it asks for your programme and only loads the subjects you need.
+
+**Your private layer** lives at `~/.cuhk/personal/` (Windows: `%USERPROFILE%\.cuhk\personal`) — in your home directory, not in the repo, so installs and updates never touch it. **Do not update this skill with `npx skills update`**: it wipes the whole directory including `.git` and unshared changes; updates happen via automatic git sync at session start.
 
 **Requirements**: daily Q&A and syncing only need git + an AI assistant. But the "fishing" part — scraping Xiaohongshu guides, operating login-gated sites — requires an agent that can **drive a browser**: [ego lite](https://github.com/citrolabs/ego-lite) ([site](https://lite.ego.app/), a.k.a. ego-browser) recommended; any browser-use-capable setup works. Without a browser, baked knowledge Q&A and direct official URLs still work fine.
 

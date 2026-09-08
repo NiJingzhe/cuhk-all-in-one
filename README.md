@@ -22,7 +22,7 @@
 | `knowledge/common/place/` | 地点到达指南：某栋楼坐什么车、在哪下、下车怎么走（含实景图） |
 | `knowledge/common/search-playbook.md` | **信息收集方法论**：官方信息去哪查（CUSIS、Blackboard）、公告怎么读、社区攻略怎么抓回来并核验 |
 | `knowledge/msc-ai/` | 学科知识：课程文件、项目信息、学科级信息源与学科级搜索方法（其他学科照此建目录） |
-| `personal/` | **你的私有层**（已被 .gitignore，永不上传）：不想公开的小经验放这里，同名文件永远以它为准 |
+| `personal/` → `~/.cuhk/personal/` | **你的私有层**（在你的用户目录、不在仓库里，安装与更新永不触碰）：不想公开的小经验放这里，同名文件永远以它为准 |
 
 所以它**既授人以鱼，也授人以渔**：`knowledge/` 里不只有答案（时刻表、到达方案这些"鱼"），还把 **agent 收集信息的方法本身当作知识存了下来**——去哪查、怎么读、怎么抓、抓回来怎么核验，都在 search playbook 里。答案会过期，方法会沉淀；agent 每次用方法查到新知识，都按规范写回知识库，于是这个库会自己生长。
 
@@ -34,10 +34,12 @@
 ## 怎么用
 
 ```bash
-npx cuhk-all-in-one
+npx skills add NiJingzhe/cuhk-all-in-one
 ```
 
-安装到本机 skills 目录（`~/.agents/skills/cuhk-all-in-one`）。npm 包只是安装器外壳——它执行的正是 `git clone` 本仓库（知识永远住在 GitHub 上，**更新不经过 npm**）；`npx github:NiJingzhe/cuhk-all-in-one` 与之等效。知识库必须以 git clone 形态存在——日常**更新走 `git pull`**（每次会话 agent 会按 [`SYNC.md`](SYNC.md) 自动同步），贡献走 feat 分支 + PR。把目录交给你的 AI 助手（如 ZCode / Claude Code 等），它会按 [`SKILL.md`](SKILL.md) 自动加载知识并回答问题；首次使用会询问你的专业，只加载你需要的学科。
+[skills](https://github.com/vercel-labs/skills) 会把技能装进各 AI 助手的 skills 目录并自动适配（ZCode / Claude Code / Codex 等；加 `-g` 装到全局）。首次会话，agent 会按 [`SKILL.md`](SKILL.md) 把安装目录**原地 git 化**并同步上游——所以 fork、开 PR、日常更新（每次会话自动 git 同步）与 git clone 直装完全一致。想直接 clone 也行：`npx cuhk-all-in-one`（npm 薄安装器，内部就是 git clone）。agent 会自动加载知识并回答问题；首次使用会询问你的专业，只加载你需要的学科。
+
+**你的私有层**在 `~/.cuhk/personal/`（Windows：`%USERPROFILE%\.cuhk\personal`）——在你的用户目录里、不在仓库中，任何安装与更新都不会碰它。**不要用 `npx skills update` 更新本技能**：它整目录重刷，会清掉 `.git` 和未分享的改动；更新由 agent 在会话开始时自动 git 同步。
 
 **环境要求**：日常问答与知识同步只需 git + AI 助手。但"授人以渔"的部分——比如抓取小红书攻略、操作需要登录的站点——需要 agent 能**操控浏览器**：推荐 [ego lite](https://github.com/citrolabs/ego-lite)（[官网](https://lite.ego.app/)，ego-browser），任何支持 browser-use 的浏览器方案均可。没有浏览器也不影响已 bake 的知识问答与官方 URL 直查。
 
