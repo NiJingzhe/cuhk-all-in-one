@@ -8,10 +8,12 @@ status: fresh
 source:
   - name: 各条目实测沉淀（交通 2026-09-07、小红书 2026-09-07 实抓验证）
     url: https://transport.cuhk.edu.hk/
+  - name: Blackboard Ultra 实测（2026-09-10）
+    url: https://blackboard.cuhk.edu.hk/
 verified:
-  date: 2026-09-07
-  method: 交通/小红书两个主条目均为当日实抓验证；其余为未核验线索并已单独标注置信度
-  by: ZCode session sess_a4f8620e-b4e8-4d18-a713-752b57a48cb9
+  date: 2026-09-10
+  method: 交通/小红书两个主条目 2026-09-07 实抓验证；Blackboard 条目（SSO/导航/文件下载）2026-09-10 实测验证；其余为未核验线索并已单独标注置信度
+  by: ZCode session 2026-09-10
 freshness:
   stable_until: 2027-09-01
   expires_when: |
@@ -106,6 +108,19 @@ confidence: high
    | 持续变化：通知、作业、截止日期、PPT 更新 | **永远现场查** Blackboard，不写入知识库 |
 
 4. 课程文件里"教授/考核"字段标 ⚠️待核 的，来源就是这里（课程页 Faculty Information / Syllabus）——查到后回写课程文件并刷新 `verified` 块。
+5. **自动化导航坑**（ego-browser，2026-09-10 实测）：
+
+   - **SSO 不保活**：会话过期后访问任何 Ultra 页会 302 到 CUHK ADFS 登录页（sts.cuhk.edu.hk），无凭据的自动化到此为止——handOff 交给用户人工登录，完成后 takeOverTaskSpace 续跑同一会话。
+   - **Courses 页的课程卡不是 `<a>`**：是 div + 点击处理器，`querySelectorAll("a")` 抓出来是空数组。按卡片标题文本点击进课，URL 变成 `/ultra/courses/_<courseId>_1/outline`；拿到 courseId 后所有深链可直连：`/outline`（Content）、`/announcements`、`/grades`、`/file/<id>`、`/document/<id>`。
+   - **Course Content 是 SPA 手风琴**：文件夹点击后就地展开、不跳转，按钮选择器 `button[aria-label="Folder, <名>"]`。快照 ref 在操作后会漂移，稳定做法 = goto `/outline` → 等 ~3s → 点文件夹按钮 → 等 ~2s → 读 DOM。页面状态陈旧后点击会报 "div intercepts pointer events"（浮层拦截）→ 整页 reload 重来一遍最省事。
+   - **"Link to ..." 类内容项**是 document（`/document/<id>?view=content`）：goto 后直接读页面 anchors 拿外链（如 Colab notebook 集合）。
+
+6. **文件下载配方**（把讲义/大纲 PDF 拉成二进制，2026-09-10 实测；三条死路 + 一条正解）：
+
+   - 死路①：直接 fetch `/ultra/courses/_<courseId>_1/file/<fileId>` → 返回的是 **SPA HTML 壳**（Angular 应用 ~93KB），不是文件。
+   - 死路②：在页面上下文 fetch bbcswebdav URL → **CORS 拦截**（同 host 也拦，响应无 CORS 头）。
+   - 死路③：等 `download` 事件 / 等顶层 URL 跳转到查看器 → 永远等不到（inline render，查看器在 iframe 里，顶层 URL 停在 file URL 不变）。
+   - **正解**：点文件链接（或 goto file URL）等 SPA 渲出 **iframe**，读 `iframe.src` 得真实 **bbcswebdav** URL（`/bbcswebdav/pid-<pid>-dt-content-rid-<rid>_1/xid-<rid>_1?...`）→ **顶层 goto 该 URL** → 302 到 `basic-doc-viewer.sgc.api.blackboard.com`，query string 里带**预签名 S3 `pdfUrl`**（约 6 小时有效）→ 从 URL 提取 `pdfUrl` 参数 → 用 **Node 侧 fetch**（Node 无浏览器 CORS）下载二进制、落盘。
 
 ## 其他常用源（未核验线索，用时先确认域名）
 
