@@ -122,6 +122,14 @@ confidence: high
    - 死路③：等 `download` 事件 / 等顶层 URL 跳转到查看器 → 永远等不到（inline render，查看器在 iframe 里，顶层 URL 停在 file URL 不变）。
    - **正解**：点文件链接（或 goto file URL）等 SPA 渲出 **iframe**，读 `iframe.src` 得真实 **bbcswebdav** URL（`/bbcswebdav/pid-<pid>-dt-content-rid-<rid>_1/xid-<rid>_1?...`）→ **顶层 goto 该 URL** → 302 到 `basic-doc-viewer.sgc.api.blackboard.com`，query string 里带**预签名 S3 `pdfUrl`**（约 6 小时有效）→ 从 URL 提取 `pdfUrl` 参数 → 用 **Node 侧 fetch**（Node 无浏览器 CORS）下载二进制、落盘。
 
+7. **作业代提交流程**（Ultra assignment，2026-10-20 实测提交成功）：
+
+   - **入口**：Course Content 里作业项的 aria-label 是 `Assignment, <名>`（注意不是 Folder）；它是个真 `<a>`，href = `/ultra/courses/_<courseId>_1/assessment/_<assessId>_1/overview`。overview 页的 **"View instructions" 链接会直接进入 `/attempt/create`**（即开始作答），不需要找 "Start attempt" 按钮——有的课程 build 里它根本不渲染。
+   - **上传**：Submission 区点 **"Upload a file"** 必须用**真实指针事件**（`page.click`）；`page.evaluate` 里的 `el.click()` 对 Ultra 按钮无效（React 不认）。真实点击会直接弹 OS 文件选择器 → `page.waitForFileChooser()` + `chooser.setFiles(绝对路径)`。上传完成的标志是文件名下方出现 **"File upload is complete"**。
+   - **提交**：点 "Submit" → 确认框 `[role="dialog"]`（"After you submit, you can't edit this assignment"）→ 点框内 `button:has-text("Submit")`（**别用 `nth=1`**：按钮序是 Cancel 在前，nth=1 是 Cancel，会白点一次）。成功后弹出回执面板：提交时间/大小/**确认号**，"Attempts" 处出现 "**N submitted**"。
+   - **坑：不限次数的作业，离开回执后点 "View instructions" 会再次进入空白 `/attempt/create`（新尝试的编辑器）**——在那里千万别再碰 Submit；已提交记录走 overview 页的 "**N submitted**" 链接（student-submission-view，页面明文显示 `RECEIPT: <确认号>`）。
+   - 回执 .txt 的 Download 链接在回执面板关闭后不一定再出现：**弹回执面板当场就把确认号和时间抓下来**；学生视图没有独立的"下载回执"入口。
+
 ## 其他常用源（未核验线索，用时先确认域名）
 
 | 主题 | 线索 | 置信 |
