@@ -114,6 +114,8 @@ confidence: high
    - **Courses 页的课程卡不是 `<a>`**：是 div + 点击处理器，`querySelectorAll("a")` 抓出来是空数组。按卡片标题文本点击进课，URL 变成 `/ultra/courses/_<courseId>_1/outline`；拿到 courseId 后所有深链可直连：`/outline`（Content）、`/announcements`、`/grades`、`/file/<id>`、`/document/<id>`。
    - **Course Content 是 SPA 手风琴**：文件夹点击后就地展开、不跳转，按钮选择器 `button[aria-label="Folder, <名>"]`。快照 ref 在操作后会漂移，稳定做法 = goto `/outline` → 等 ~3s → 点文件夹按钮 → 等 ~2s → 读 DOM。页面状态陈旧后点击会报 "div intercepts pointer events"（浮层拦截）→ 整页 reload 重来一遍最省事。
    - **"Link to ..." 类内容项**是 document（`/document/<id>?view=content`）：goto 后直接读页面 anchors 拿外链（如 Colab notebook 集合）。
+   - **Announcements 列表只渲染前 10 条**，页脚写 "Showing 10 of a total of N"：`scrollTop` 赋值和找 "Load more" 按钮都无效（后者根本不存在）——**真实滚轮事件**滚到底部才会触发增量加载（`mouse.move` 到 `.course-tool-content` 上 → `mouse.wheel(0, 500)` × 若干次，每次间隔 ~600ms）。REST 直连也不通：`/learn/api/v1/...` 经页面上下文 fetch 会被 S3 层 404（`NoSuchKey` XML）。（2026-11-17 实测）
+   - **"New Course Announcements" MUI 弹窗**会在进课程页时挡住一切点击（报 "div intercepts pointer events"，reload 也关不掉）→ 点 `button[aria-label="Close new announcements modal"]` 再继续。（2026-11-17 实测）
 
 6. **文件下载配方**（把讲义/大纲 PDF 拉成二进制，2026-09-10 实测；三条死路 + 一条正解）：
 
@@ -121,6 +123,7 @@ confidence: high
    - 死路②：在页面上下文 fetch bbcswebdav URL → **CORS 拦截**（同 host 也拦，响应无 CORS 头）。
    - 死路③：等 `download` 事件 / 等顶层 URL 跳转到查看器 → 永远等不到（inline render，查看器在 iframe 里，顶层 URL 停在 file URL 不变）。
    - **正解**：点文件链接（或 goto file URL）等 SPA 渲出 **iframe**，读 `iframe.src` 得真实 **bbcswebdav** URL（`/bbcswebdav/pid-<pid>-dt-content-rid-<rid>_1/xid-<rid>_1?...`）→ **顶层 goto 该 URL** → 302 到 `basic-doc-viewer.sgc.api.blackboard.com`，query string 里带**预签名 S3 `pdfUrl`**（约 6 小时有效）→ 从 URL 提取 `pdfUrl` 参数 → 用 **Node 侧 fetch**（Node 无浏览器 CORS）下载二进制、落盘。
+   - **document 型内容里的内嵌文件**（aria 是 `Text Document, <名>`，如老师把官方解答挂成 document）：页面上**没有任何 `<a>`/iframe**，文件名只是 `span.makeStylesfileText-*`——**真实点击文件名 span** 后 SPA 才渲染出 bbcswebdav 预览 iframe，之后走同一正解。（2026-11-17 实测）
 
 7. **作业代提交流程**（Ultra assignment，2026-10-20 实测提交成功）：
 
