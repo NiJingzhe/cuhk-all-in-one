@@ -11,9 +11,9 @@ source:
   - name: Blackboard Ultra 实测（2026-09-10，2026-11-16 复用再验证）
     url: https://blackboard.cuhk.edu.hk/
 verified:
-  date: 2026-11-16
-  method: 交通/小红书两个主条目 2026-09-07 实抓验证；Blackboard 条目（SSO/导航/文件下载）2026-09-10 实测验证；作业提交流程 2026-10-20 实测；导航新坑（courses 404/Load more 拦截/overview 灰屏/Gradebook 验状态）与文件下载、提交流程 2026-11-16 复用全部走通后更新；其余为未核验线索并已单独标注置信度
-  by: ZCode session 2026-11-16
+  date: 2026-11-17
+  method: 交通/小红书两个主条目 2026-09-07 实抓验证；Blackboard 条目（SSO/导航/文件下载）2026-09-10 实测验证；作业提交流程 2026-10-20 实测；导航新坑（courses 404/Load more 拦截/overview 灰屏/Gradebook 验状态）与文件下载、提交流程 2026-11-16 复用全部走通后更新；Load more 死锁根因（1×1px 按钮）与 evaluate click 解法 2026-11-17 实测；其余为未核验线索并已单独标注置信度
+  by: ZCode session 2026-11-17
 freshness:
   stable_until: 2027-09-01
   expires_when: |
@@ -114,7 +114,7 @@ confidence: high
    - **Courses 页的课程卡不是 `<a>`**：是 div + 点击处理器，`querySelectorAll("a")` 抓出来是空数组。按卡片标题文本点击进课，URL 变成 `/ultra/courses/_<courseId>_1/outline`；拿到 courseId 后所有深链可直连：`/outline`（Content）、`/announcements`、`/grades`、`/file/<id>`、`/document/<id>`。
    - **Course Content 是 SPA 手风琴**：文件夹点击后就地展开、不跳转，按钮选择器 `button[aria-label="Folder, <名>"]`。快照 ref 在操作后会漂移，稳定做法 = goto `/outline` → 等 ~3s → 点文件夹按钮 → 等 ~2s → 读 DOM。页面状态陈旧后点击会报 "div intercepts pointer events"（浮层拦截）→ 整页 reload 重来一遍最省事。
    - **`/ultra/courses` 直连会 404**（"Uh-oh. We can't find that page"，即使已登录）：进课程列表要从 Stream/任意 Ultra 页的**左侧导航点 "Courses"**（实际落到 `/ultra/course`）。2026-11-16 实测。
-   - **顶层 "Load N more content items" 按钮可能被浮层死锁**：点击报 "div intercepts pointer events"，且与手风琴陈旧不同——**reload 后照样拦**，scrollIntoView + 原始坐标 `mouse.click` 也不一定能触发。别跟它耗：能深链就深链（assessment/document URL 稳定），要验状态就 goto `/ultra/courses/_<courseId>_1/grades`——**Gradebook 页明文列出每项作业的 Submitted/Unopened/Graded**，是绕开手风琴和 Load more 的最稳验证入口。2026-11-16 实测。
+   - **顶层 "Load N more content items" 按钮"死锁"的根因 = 按钮被压成 1×1 px**：点击报 "div intercepts pointer events"，reload、关掉 MUI 公告弹窗都无效——`getBoundingClientRect` 显示 w=h=1（不是浮层遮挡），`elementFromPoint(中心)` 命中的是容器 div，真实指针/坐标点击永远打不中它。**解法：`page.evaluate` 里 `btn.click()` 一发即中**（MUI ButtonBase 对程序化 click 照常响应；注意与 "Upload a file" 按钮 evaluate click 无效的情况相反）。实在不行再绕：能深链就深链（assessment/document URL 稳定），要验状态就 goto `/ultra/courses/_<courseId>_1/grades`——**Gradebook 页明文列出每项作业的 Submitted/Unopened/Graded**，是最稳验证入口。2026-11-16 发现；2026-11-17 定位根因（1×1px）并实测 evaluate click 解法。
    - **assessment overview 页偶发灰屏**：URL 正常但 `body.innerText` 为空、`readyState` 已 complete、截图全灰。同一 URL 反复等无用；**goto 时带上 `?courseId=_<courseId>_1` 参数再轮询 innerText（最多 ~20s）**即可渲染出来；或从 outline 手风琴里点 `a[aria-label="Assignment, <名>"]` 进去。2026-11-16 实测。
    - **"Link to ..." 类内容项**是 document（`/document/<id>?view=content`）：goto 后直接读页面 anchors 拿外链（如 Colab notebook 集合）。
 
