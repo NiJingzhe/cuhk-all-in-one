@@ -8,12 +8,12 @@ status: fresh
 source:
   - name: 各条目实测沉淀（交通 2026-09-07、小红书 2026-09-07 实抓验证）
     url: https://transport.cuhk.edu.hk/
-  - name: Blackboard Ultra 实测（2026-09-10）
+  - name: Blackboard Ultra 实测（2026-09-10，2026-11-16 复用再验证）
     url: https://blackboard.cuhk.edu.hk/
 verified:
-  date: 2026-09-10
-  method: 交通/小红书两个主条目 2026-09-07 实抓验证；Blackboard 条目（SSO/导航/文件下载）2026-09-10 实测验证；其余为未核验线索并已单独标注置信度
-  by: ZCode session 2026-09-10
+  date: 2026-11-17
+  method: 交通/小红书两个主条目 2026-09-07 实抓验证；Blackboard 条目（SSO/导航/文件下载）2026-09-10 实测验证；作业提交流程 2026-10-20 实测；导航新坑（courses 404/Load more 拦截/overview 灰屏/Gradebook 验状态）与文件下载、提交流程 2026-11-16 复用全部走通后更新；Load more 死锁根因（1×1px 按钮）与 evaluate click 解法 2026-11-17 实测；其余为未核验线索并已单独标注置信度
+  by: ZCode session 2026-11-17
 freshness:
   stable_until: 2027-09-01
   expires_when: |
@@ -113,22 +113,27 @@ confidence: high
    - **SSO 不保活**：会话过期后访问任何 Ultra 页会 302 到 CUHK ADFS 登录页（sts.cuhk.edu.hk），无凭据的自动化到此为止——handOff 交给用户人工登录，完成后 takeOverTaskSpace 续跑同一会话。
    - **Courses 页的课程卡不是 `<a>`**：是 div + 点击处理器，`querySelectorAll("a")` 抓出来是空数组。按卡片标题文本点击进课，URL 变成 `/ultra/courses/_<courseId>_1/outline`；拿到 courseId 后所有深链可直连：`/outline`（Content）、`/announcements`、`/grades`、`/file/<id>`、`/document/<id>`。
    - **Course Content 是 SPA 手风琴**：文件夹点击后就地展开、不跳转，按钮选择器 `button[aria-label="Folder, <名>"]`。快照 ref 在操作后会漂移，稳定做法 = goto `/outline` → 等 ~3s → 点文件夹按钮 → 等 ~2s → 读 DOM。页面状态陈旧后点击会报 "div intercepts pointer events"（浮层拦截）→ 整页 reload 重来一遍最省事。
+   - **`/ultra/courses` 直连会 404**（"Uh-oh. We can't find that page"，即使已登录）：进课程列表要从 Stream/任意 Ultra 页的**左侧导航点 "Courses"**（实际落到 `/ultra/course`）。2026-11-16 实测。
+   - **顶层 "Load N more content items" 按钮"死锁"的根因 = 按钮被压成 1×1 px**：点击报 "div intercepts pointer events"，reload、关掉 MUI 公告弹窗都无效——`getBoundingClientRect` 显示 w=h=1（不是浮层遮挡），`elementFromPoint(中心)` 命中的是容器 div，真实指针/坐标点击永远打不中它。**解法：`page.evaluate` 里 `btn.click()` 一发即中**（MUI ButtonBase 对程序化 click 照常响应；注意与 "Upload a file" 按钮 evaluate click 无效的情况相反）。实在不行再绕：能深链就深链（assessment/document URL 稳定），要验状态就 goto `/ultra/courses/_<courseId>_1/grades`——**Gradebook 页明文列出每项作业的 Submitted/Unopened/Graded**，是最稳验证入口。2026-11-16 发现；2026-11-17 定位根因（1×1px）并实测 evaluate click 解法。
+   - **assessment overview 页偶发灰屏**：URL 正常但 `body.innerText` 为空、`readyState` 已 complete、截图全灰。同一 URL 反复等无用；**goto 时带上 `?courseId=_<courseId>_1` 参数再轮询 innerText（最多 ~20s）**即可渲染出来；或从 outline 手风琴里点 `a[aria-label="Assignment, <名>"]` 进去。2026-11-16 实测。
    - **"Link to ..." 类内容项**是 document（`/document/<id>?view=content`）：goto 后直接读页面 anchors 拿外链（如 Colab notebook 集合）。
 
-6. **文件下载配方**（把讲义/大纲 PDF 拉成二进制，2026-09-10 实测；三条死路 + 一条正解）：
+6. **文件下载配方**（把讲义/大纲 PDF 拉成二进制，2026-09-10 实测，2026-11-16 再次走通；三条死路 + 一条正解）：
 
    - 死路①：直接 fetch `/ultra/courses/_<courseId>_1/file/<fileId>` → 返回的是 **SPA HTML 壳**（Angular 应用 ~93KB），不是文件。
    - 死路②：在页面上下文 fetch bbcswebdav URL → **CORS 拦截**（同 host 也拦，响应无 CORS 头）。
    - 死路③：等 `download` 事件 / 等顶层 URL 跳转到查看器 → 永远等不到（inline render，查看器在 iframe 里，顶层 URL 停在 file URL 不变）。
    - **正解**：点文件链接（或 goto file URL）等 SPA 渲出 **iframe**，读 `iframe.src` 得真实 **bbcswebdav** URL（`/bbcswebdav/pid-<pid>-dt-content-rid-<rid>_1/xid-<rid>_1?...`）→ **顶层 goto 该 URL** → 302 到 `basic-doc-viewer.sgc.api.blackboard.com`，query string 里带**预签名 S3 `pdfUrl`**（约 6 小时有效）→ 从 URL 提取 `pdfUrl` 参数 → 用 **Node 侧 fetch**（Node 无浏览器 CORS）下载二进制、落盘。
 
-7. **作业代提交流程**（Ultra assignment，2026-10-20 实测提交成功）：
+7. **作业代提交流程**（Ultra assignment，2026-10-20 实测提交成功，2026-11-16 三连提交再次走通）：
 
-   - **入口**：Course Content 里作业项的 aria-label 是 `Assignment, <名>`（注意不是 Folder）；它是个真 `<a>`，href = `/ultra/courses/_<courseId>_1/assessment/_<assessId>_1/overview`。overview 页的 **"View instructions" 链接会直接进入 `/attempt/create`**（即开始作答），不需要找 "Start attempt" 按钮——有的课程 build 里它根本不渲染。
+   - **入口**：Course Content 里作业项的 aria-label 是 `Assignment, <名>`（注意不是 Folder）；它是个真 `<a>`，href = `/ultra/courses/_<courseId>_1/assessment/_<assessId>_1/overview`。overview 页的 **"View instructions" 链接会直接进入 `/attempt/create`**（即开始作答），不需要找 "Start attempt" 按钮——有的课程 build 里它根本不渲染。**直连 `/attempt/create?courseId=_<courseId>_1` 也行**（省掉手风琴展开）。
+   - **文本/链接类提交**（如"提交 GitHub 链接"）：Submission 区是 Quill 编辑器，点 `#bb-editor…` 的 `div.ql-editor` 后用 `keyboard.insertText()` 写入即可，无需模拟打字；写入后 "Word count" 会更新。2026-11-16 实测。
    - **上传**：Submission 区点 **"Upload a file"** 必须用**真实指针事件**（`page.click`）；`page.evaluate` 里的 `el.click()` 对 Ultra 按钮无效（React 不认）。真实点击会直接弹 OS 文件选择器 → `page.waitForFileChooser()` + `chooser.setFiles(绝对路径)`。上传完成的标志是文件名下方出现 **"File upload is complete"**。
    - **提交**：点 "Submit" → 确认框 `[role="dialog"]`（"After you submit, you can't edit this assignment"）→ 点框内 `button:has-text("Submit")`（**别用 `nth=1`**：按钮序是 Cancel 在前，nth=1 是 Cancel，会白点一次）。成功后弹出回执面板：提交时间/大小/**确认号**，"Attempts" 处出现 "**N submitted**"。
    - **坑：不限次数的作业，离开回执后点 "View instructions" 会再次进入空白 `/attempt/create`（新尝试的编辑器）**——在那里千万别再碰 Submit；已提交记录走 overview 页的 "**N submitted**" 链接（student-submission-view，页面明文显示 `RECEIPT: <确认号>`）。
    - 回执 .txt 的 Download 链接在回执面板关闭后不一定再出现：**弹回执面板当场就把确认号和时间抓下来**；学生视图没有独立的"下载回执"入口。
+   - **交完要验证时走 Gradebook**（`/ultra/courses/_<courseId>_1/grades`）：每项作业明文给出 Submitted/Unopened/Graded + 截止日，比回 Course Content 手风琴靠谱（后者可能撞上 Load more 浮层死锁）。
 
 ## 其他常用源（未核验线索，用时先确认域名）
 
