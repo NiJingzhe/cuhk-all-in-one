@@ -122,6 +122,13 @@ confidence: high
    - 死路③：等 `download` 事件 / 等顶层 URL 跳转到查看器 → 永远等不到（inline render，查看器在 iframe 里，顶层 URL 停在 file URL 不变）。
    - **正解**：点文件链接（或 goto file URL）等 SPA 渲出 **iframe**，读 `iframe.src` 得真实 **bbcswebdav** URL（`/bbcswebdav/pid-<pid>-dt-content-rid-<rid>_1/xid-<rid>_1?...`）→ **顶层 goto 该 URL** → 302 到 `basic-doc-viewer.sgc.api.blackboard.com`，query string 里带**预签名 S3 `pdfUrl`**（约 6 小时有效）→ 从 URL 提取 `pdfUrl` 参数 → 用 **Node 侧 fetch**（Node 无浏览器 CORS）下载二进制、落盘。
 
+6b. **批量下载配方 B：REST API 树 + nautilus 直链**（2026-11-24 实测，一次拉 13 份讲义，比配方 A 快数倍）：
+
+   - **内容树**：页面上下文 fetch（credentials include，**必须绝对 URL**，相对路径偶发 `Failed to fetch`）`https://blackboard.cuhk.edu.hk/learn/api/public/v1/courses/_<cid>_1/contents`（顶层）与 `.../contents/_<folderId>_1/children`（子项）。返回 title/contentHandler.id（`resource/x-bb-folder` / `resource/x-bb-file`），一次看清全课程结构，免去 UI 手风琴。⚠️ 页面若停在跨域页（如 xythos/查看器）会 CORS 全挂——先 goto 回 BB 主域再调 API。`v1 .../contents/<id>/file` 端点在本校实例 **404**，别试。
+   - **文件直链（PDF 类 `x-bb-file`）**：content item JSON 的 `links[0].href = /ultra/redirect?redirectType=nautilus&courseId=...&contentId=...&parentId=...`。**顶层 goto 它 → 302 直达 xythos 预签名 URL**（`prod01-apse1-...files.blackboard.com/<hash>/<id>?response-...`），顶层 `page.url()` 直接就是可下载地址 → **Node fetch 落盘**（比配方 A 少一跳 doc-viewer）。⚠️ nautilus 重定向**不稳定**：约 1/3 概率弹回 outline，轮询 `page.url()` 等 `xythos` 出现（每秒查、最多 ~15s），不行就整轮 goto 重试（LLM.pdf 第 2 次、GPUProgramming 第 3 次才成功）；文件越大等待越久。
+   - **非 PDF（pptx 等）**：nautilus 对其一律弹回 outline，走 UI——outline → 点 "Load N more content items" 按钮（渲染慢，waitForFunction 等文本出现）→ 点文件夹 → 点文件项 → 条目页 URL 形如 `/ultra/courses/_<cid>_1/file/_<itemId>_1`，读预览 **iframe.src** 得 bbcswebdav URL → **顶层 goto `<bbcswebdav>&xythos-download=true`**（去掉 render 类参数）→ Chrome 触发**下载**（goto 可能报 `net::ERR_ABORTED`，属正常，导航已转为下载）→ ego `page.waitForEvent("download")` + `download.saveAs(绝对路径)`。⚠️ 页面上下文 fetch bbcswebdav 即使同 host 也因 302 跨域被 CORS 拦（死路②的老坑在这里同样适用）。
+   - **成绩核查**：`/ultra/courses/_<cid>_1/grades` 表格 = Item/Due/Status/Grade（Status 取值 Submitted / Graded / Unopened / "1 attempt submitted (1 Late)" 等），导航栏 "N new grading activities" 徽标可当增量提示。
+
 7. **作业代提交流程**（Ultra assignment，2026-10-20 实测提交成功）：
 
    - **入口**：Course Content 里作业项的 aria-label 是 `Assignment, <名>`（注意不是 Folder）；它是个真 `<a>`，href = `/ultra/courses/_<courseId>_1/assessment/_<assessId>_1/overview`。overview 页的 **"View instructions" 链接会直接进入 `/attempt/create`**（即开始作答），不需要找 "Start attempt" 按钮——有的课程 build 里它根本不渲染。
